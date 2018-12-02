@@ -20,6 +20,9 @@
 
 using namespace std;
 
+//Prototypes
+string printMessage(string);
+
 int main()
 {
 	//*****************************************************************************
@@ -55,11 +58,76 @@ int main()
 	//This is the hint corresponded to the picked word.
 	string pickedHint = WORDS[randomIndex][HINT];
 
-	cout << "Welcome to the *WORD SCRAMBLE* game!!!" << endl;
-	cout << "Guess the word by reconstrcuting the scrambled letters^0^" << endl;
-	cout << "Press enter when you are ready." << endl;
+	//**************************************************************
+	//Next, create a scrambled version of the words by rand()%     *
+	//**************************************************************
+
+	//declare a string variable of the scrambled words
+	string scrambled = pickedWord;
+	//each words' length are different,so we need a for loop to do the scramble each word
+	int length = scrambled.size(); 
+	for (int i = 0; i < length; i++)
+	{
+		int x = (rand() % length);
+		int y = (rand() % length);
+		char tempWord = scrambled[x];
+		scrambled[x] = scrambled[y];
+		scrambled[y] = tempWord;
+	}
+
+	//Print out the message by calling printMessage function
+	printMessage("Welcome to the *WORD SCRAMBLE* game!!!\n");
+	printMessage("Guess the word by reconstrcuting the scrambled letters^0^\n");
+	printMessage("You will have three attempts to guess the word\n");
+	printMessage("If you want to quit the game, just type 'quit'\n");
+	printMessage("Press enter when you are ready.\n");
+
+	//Game starts!
+	string guess;
+	cout<<"The first word is: "<<scrambled<<endl;
+	printMessage("Your guess is:");
+	cin >> guess;
+
+	//if the first guess is wrong and the user did not choose to quit
+	while ((guess != scrambled) && (guess != "quit"))
+	{
+		
+		for (int counter = 3; counter >1; counter--)
+		{
+			cout << "Sorry, very close. Please try again." << endl;
+			cout << "You have " << (counter-1) << " more try" << endl;
+			cout << "Your guess is:" << endl;
+			cin >> guess;
+			if (counter = 2)
+			{
+				cout << "Do you want to a hint?" << endl;
+				cout << "Enter 'hint'for a hint" << endl;
+				cout << "Or enter any key for 'I want to guess by myself!'" << endl;
+				cin >> guess;
+				if (guess == "hint")
+				{
+					cout << pickedHint << endl;
+				}
+				else
+				{
+					cout << "This is your last try" << endl;
+					cout << "Your guess is:" << endl;
+					cin >> guess;
+				}
+
+				}
+		}
+	}
+
 
 
 	return 0;
 
+}
+
+//PrintMessage function: cout the 'Instruction' messages
+string printMessage(string A)
+{
+	cout << A << endl;
+	return A;
 }
