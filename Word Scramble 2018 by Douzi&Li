@@ -1,0 +1,37 @@
+//This is a Word Jumble Game.
+//The user will see a group of scrambling letters in random order.
+//The user will be asked to reconstruct the word and guess the word.
+//There will be THREE attempts OR the user can choose to QUIT the game.
+//While failing TWICE, the program will ask the user if he want to see a HINT
+//If so, program will give the user the hint.If not, the user can continue taking his last attempt.
+//There will be SIX words in total and each word will have its hint.
+//After Three attempts, no matter the user won or not, program will ask him if the user wants another try.
+//Maybe I will add a TIMER (60 seconds), or maybe not.
+//This program is created by Douzi Ma and Li Lin.
+//NOTE:IN THE PRES,PICK OUT TWO THINGS WE'VE LEARNED IN CLASS.
+
+//header files
+#include<iostream>
+#include<string>
+#include<cstdlib>
+#include<ctime>
+
+using namespace std;
+
+int main()
+{
+	//First, create a list of the words, which is 6 words in this case.
+	//Using the enumurators
+	enum field{WORDS,HINT,NUM_FIELD};
+	const int NUM_WORDS = 6;
+
+	cout << "Welcome to the game *WORD SCRAMBLE*!!!" << endl;
+	cout << "Guess the word by reconstrcuting the scrambled letters^0^" << endl;
+	
+	//The six words will be: eyebrow, guitar, jelly, dolphin, rainbow, fire.
+	//Here, use a two demensional array
+	const string WORDS[NUM_WORDS][NUM_FIELD]=
+
+
+
+}
