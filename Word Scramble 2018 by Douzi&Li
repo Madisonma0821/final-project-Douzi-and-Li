@@ -22,16 +22,37 @@ int main()
 {
 	//First, create a list of the words, which is 6 words in this case.
 	//Using the enumurators
-	enum field{WORDS,HINT,NUM_FIELD};
+	enum field { WORD, HINT, NUM_FIELD };
 	const int NUM_WORDS = 6;
 
-	cout << "Welcome to the game *WORD SCRAMBLE*!!!" << endl;
+	cout << "Welcome to the *WORD SCRAMBLE* game!!!" << endl;
 	cout << "Guess the word by reconstrcuting the scrambled letters^0^" << endl;
-	
+	cout << "Press enter when you are ready." << endl;
+
 	//The six words will be: eyebrow, guitar, jelly, dolphin, rainbow, fire.
-	//Here, use a two demensional array
-	const string WORDS[NUM_WORDS][NUM_FIELD]=
+	//Here, use a two dimensional array
+	const string WORDS[NUM_WORDS][NUM_FIELD] =
+	{
+		{"eyebrow","It is on your face"},
+	{"guitar","It is a musical instrument"},
+	{"jelly","It is soft and semisolid"},
+	{"dolphin","It is a memmal which does not live on the land"},
+	{"rainbow","It is colorful"},
+	{"fire","it releases light"}
+	};
+
+	//Pick a random word from the array.
+	//First,initialize the random seed
+	srand(static_cast<unsigned int>(time(0)));
+	//generates a random number between 0 and 6
+	int randomIndex = (rand() % NUM_WORDS);
+	//This is the word that system has picked
+	string pickedWord = WORDS[randomIndex][WORD];
+	//This is the hint corresponded to the picked word.
+	string pickedHint = WORDS[randomIndex][HINT];
 
 
+
+	return 0;
 
 }
