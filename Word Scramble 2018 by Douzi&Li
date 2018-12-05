@@ -25,13 +25,22 @@ string printMessage(string);
 string endProgram(string);
 
 
-int main()
+int main(void)
 {
 	//*****************************************************************************
 	//First, create a list of the words, which is 6 words in this case.           *
 	//The six words will be: eyebrow, guitar, jelly, dolphin, rainbow, fire.      *
 	//*****************************************************************************
 
+	//Print out the message by calling printMessage function
+	printMessage("Welcome to the *WORD SCRAMBLE* game!!!\n");
+	printMessage("Guess the word by reconstrcuting the scrambled letters^0^\n");
+	printMessage("You will have three attempts to guess the word\n");
+	printMessage("If you want to quit the game, just type 'quit'\n");
+	printMessage("Press enter when you are ready.\n");
+
+	char gotostart = 'Y';
+beginning:
 	//Using the enumurators
 	enum field { WORD, HINT, NUM_FIELD };
 	const int NUM_WORDS = 6;
@@ -77,119 +86,117 @@ int main()
 		scrambled[y] = tempWord;
 	}
 
-	//Print out the message by calling printMessage function
-	printMessage("Welcome to the *WORD SCRAMBLE* game!!!\n");
-	printMessage("Guess the word by reconstrcuting the scrambled letters^0^\n");
-	printMessage("You will have three attempts to guess the word\n");
-	printMessage("If you want to quit the game, just type 'quit'\n");
-	printMessage("Press enter when you are ready.\n");
 
 	
-		//Game starts!
-		string guess;
-		string choice;
-		cout << "The first word is: " << scrambled << endl;
-		printMessage("Your guess is:");
-		cin >> guess;
+	//Game starts!
+	string guess;
+	string choice;
+	cout << "The scrambled word is: " << scrambled << endl;
+	printMessage("Your guess is:");
+	cin >> guess;
 
-		//If the user want to quit
-		while (guess == "quit")
+	//If the user want to quit
+	while (guess == "quit")
+	{
+		endProgram(guess);
+	}
+	//if the first guess is wrong and the user did not choose to quit
+	while ((guess != pickedWord) && (guess != "quit"))
+	{
+		//set the counter to three, which means the user will have 3 chances to guess each words
+		for (int counter = 3; counter > 1; counter--)
 		{
-			endProgram(guess);
-		}
-		//if the first guess is wrong and the user did not choose to quit
-		while ((guess != pickedWord) && (guess != "quit"))
-		{
-			//set the counter to three, which means the user will have 3 chances to guess each words
-			for (int counter = 3; counter > 1; counter--)
+			cout << "Sorry, very close. Please try again." << endl;
+			cout << "You have " << (counter - 1) << " more try" << endl;
+			cout << "Your guess is:" << endl;
+			cin >> guess;
+			while (guess == pickedWord)
 			{
-				cout << "Sorry, very close. Please try again." << endl;
-				cout << "You have " << (counter - 1) << " more try" << endl;
-				cout << "Your guess is:" << endl;
+				printMessage("Congratulations! That's right!");
+				printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
+				cin >> gotostart;
+				if (gotostart)
+					goto beginning;
+				
+
+			}
+			if (counter = 2)
+			{
+				cout << "Do you want to a hint?" << endl;
+				cout << "Enter 'hint'for a hint" << endl;
+				cout << "Or enter any key for 'I want to guess by myself!'" << endl;
 				cin >> guess;
-				while (guess == pickedWord)
+
+				if (guess == pickedWord)
 				{
 					printMessage("Congratulations! That's right!");
 					printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
-					cin >> choice;
-					endProgram(choice);
+					cin >> gotostart;
+					if (gotostart)
+						goto beginning;
+					
 
 
 				}
-				if (counter = 2)
+				else if (guess == "hint")
 				{
-					cout << "Do you want to a hint?" << endl;
-					cout << "Enter 'hint'for a hint" << endl;
-					cout << "Or enter any key for 'I want to guess by myself!'" << endl;
+					cout << pickedHint << endl;
+					cout << "Your guess is: " << endl;
 					cin >> guess;
-
-					if (guess == pickedWord)
+					while (guess == pickedWord)
 					{
 						printMessage("Congratulations! That's right!");
 						printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
-						cin >> choice;
-						endProgram(choice);
-
+						cin >> gotostart;
+						if (gotostart)
+							goto beginning;
 						
 
 					}
-					else if (guess == "hint")
+					while (guess != pickedWord)
 					{
-						cout << pickedHint << endl;
-						cout << "Your guess is: " << endl;
-						cin >> guess;
-						while (guess == pickedWord)
-						{
-							printMessage("Congratulations! That's right!");
-							printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
-							cin >> choice;
-							endProgram(choice);
-							
-
-						}
-						while (guess != pickedWord)
-						{
-							cout << "Sorry,that's wrong." << endl;
-							cout << "The right answer is " << pickedWord << endl;
-							printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
-							cin >> choice;
-							endProgram(choice);
-
-							
-						}
-					}
-					else if (guess != "hint")
-					{
-						cout << "This is your last try" << endl;
-						cout << "Your guess is:" << endl;
-						cin >> guess;
-						while (guess == pickedWord)
-						{
-							printMessage("Congratulations! That's right!");
-							printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
-							cin >> choice;
-							endProgram(choice);
-
+						cout << "Sorry,that's wrong." << endl;
+						cout << "The right answer is " << pickedWord << endl;
+						printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
+						cin >> gotostart;
+						if (gotostart)
+							goto beginning;
 						
-
-						}
 					}
-
 				}
+				else if (guess != "hint")
+				{
+					cout << "This is your last try" << endl;
+					cout << "Your guess is:" << endl;
+					cin >> guess;
+					while (guess == pickedWord)
+					{
+						printMessage("Congratulations! That's right!");
+						printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
+						cin >> gotostart;
+						if (gotostart)
+							goto beginning;
+						
+
+					}
+				}
+
 			}
-
 		}
 
-		while (guess == pickedWord)
-		{
-			printMessage("Congratulations! That's right!");
-			printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
-			cin >>choice;
-			endProgram(choice);
+	}
+
+	while (guess == pickedWord)
+	{
+		printMessage("Congratulations! That's right!");
+		printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
+		cin >> gotostart;
+		if (gotostart)
+			goto beginning;
 
 
-		}
-	
+	}
+
 	return 0;
 
 }
@@ -203,7 +210,7 @@ string printMessage(string A)
 
 string endProgram(string endingChoice)
 {
-	if (endingChoice=="Y"|| endingChoice=="y")
+	if (endingChoice == "Y" || endingChoice == "y")
 	{
 		cout << "How to make it back to the top?" << endl;
 		cout << "I am still working on it" << endl;
