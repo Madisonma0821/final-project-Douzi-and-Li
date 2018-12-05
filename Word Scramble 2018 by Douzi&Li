@@ -22,7 +22,7 @@ using namespace std;
 
 //Prototypes
 string printMessage(string);
-string endProgram(string);
+void endProgram();
 
 
 int main(void)
@@ -98,7 +98,7 @@ beginning:
 	//If the user want to quit
 	while (guess == "quit")
 	{
-		endProgram(guess);
+		endProgram();
 	}
 	//if the first guess is wrong and the user did not choose to quit
 	while ((guess != pickedWord) && (guess != "quit"))
@@ -115,8 +115,10 @@ beginning:
 				printMessage("Congratulations! That's right!");
 				printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
 				cin >> gotostart;
-				if (gotostart)
+				if (gotostart == 'Y' || gotostart == 'y')
 					goto beginning;
+				else
+					endProgram();
 				
 
 			}
@@ -132,8 +134,10 @@ beginning:
 					printMessage("Congratulations! That's right!");
 					printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
 					cin >> gotostart;
-					if (gotostart)
+					if (gotostart == 'Y' || gotostart == 'y')
 						goto beginning;
+					else
+						endProgram();
 					
 
 
@@ -148,8 +152,10 @@ beginning:
 						printMessage("Congratulations! That's right!");
 						printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
 						cin >> gotostart;
-						if (gotostart)
+						if (gotostart=='Y'||gotostart=='y')
 							goto beginning;
+						else
+							endProgram();
 						
 
 					}
@@ -159,9 +165,10 @@ beginning:
 						cout << "The right answer is " << pickedWord << endl;
 						printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
 						cin >> gotostart;
-						if (gotostart)
+						if (gotostart == 'Y' || gotostart == 'y')
 							goto beginning;
-						
+						else
+							endProgram();
 					}
 				}
 				else if (guess != "hint")
@@ -174,9 +181,10 @@ beginning:
 						printMessage("Congratulations! That's right!");
 						printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
 						cin >> gotostart;
-						if (gotostart)
+						if (gotostart == 'Y' || gotostart == 'y')
 							goto beginning;
-						
+						else
+							endProgram();
 
 					}
 				}
@@ -191,8 +199,11 @@ beginning:
 		printMessage("Congratulations! That's right!");
 		printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
 		cin >> gotostart;
-		if (gotostart)
+		if (gotostart == 'Y' || gotostart == 'y')
 			goto beginning;
+		else
+			endProgram();
+
 
 
 	}
@@ -208,17 +219,10 @@ string printMessage(string A)
 	return A;
 }
 
-string endProgram(string endingChoice)
+void endProgram()
 {
-	if (endingChoice == "Y" || endingChoice == "y")
-	{
-		cout << "How to make it back to the top?" << endl;
-		cout << "I am still working on it" << endl;
-	}
-
-	else
-	{
+	
 		cout << "Thanks for playing!Good-bye and Hava a good one!" << endl;
 		exit(0);
-	}
+
 }
