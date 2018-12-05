@@ -119,7 +119,25 @@ int main()
 		}
 	}
 
+int time(int seconds); // function that makes the stop watch work.
+	clock_t  Begin, End;
+	{ 
+		Begin = clock() * CLK_TCK; //Timer Start
+		End = clock() * CLK_TCK; // Timer stop
+		for (int seconds = 60; seconds >= 0; seconds--)
+			
 
+
+			// I wanna cout to output an int with leading zeros, so the value 1 would be printed as 01.
+			// prints out time. first, it prints out the inputted time, goes through the loop, and prints out the approriate values based on the loops function.
+		{
+			const int i = seconds;
+			cout << fixed << right; // write floaing-point value in fixed-point notation ,and the output is padded to the field width by inserting fill characters at the beginning.
+			cout << setfill('0') << setw(2) << i / (60 * 60) << ":" << setfill('0') << setw(2) << i / 60 << ":" << setfill('0') << setw(2) << i % 60;
+			cout << "\n";
+
+		}
+	}
 
 	return 0;
 
@@ -130,4 +148,5 @@ string printMessage(string A)
 {
 	cout << A << endl;
 	return A;
+	
 }
