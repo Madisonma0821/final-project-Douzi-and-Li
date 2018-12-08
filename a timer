@@ -1,0 +1,28 @@
+//header files
+#include<iostream>
+#include<string>
+#include<cstdlib>
+#include<ctime>
+#include<windows.h>
+
+using namespace std;
+
+//minites and seconds of timer
+int minutes = 0;
+int seconds = 60;
+
+void timer()
+{
+	while (true) {
+		Sleep(1000);
+		seconds--;
+		if (seconds == 0)
+		{
+			cout << "Sorry, time is up." << endl;
+			seconds = 60;
+		
+		}
+		system("CLS");
+		cout << "Timer: " << minutes << " min " << seconds << " sec " << endl;
+	}
+}
