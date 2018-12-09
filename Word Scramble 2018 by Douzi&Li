@@ -26,7 +26,7 @@ void endProgram();
 void rightAnswer();
 
 
-int main(void)
+int main()
 {
 	//*****************************************************************************
 	//First, create a list of the words, which is 6 words in this case.           *
@@ -93,9 +93,9 @@ beginning:
 	}
 
 	//Game starts!
-	string guess;
+	string guess; //Will accepts user's guess, and the choice if they want to play again or not.
 	cout << "The scrambled word is: " << scrambled << endl;
-	printMessage("Your guess is:");
+	printMessage("\nYour guess is:");
 	cin >> guess;
 
 	//[1st] If the user want to quit
@@ -106,7 +106,10 @@ beginning:
 	//[1st] If the first guess is wrong and the user did not choose to quit
 	while ((guess != pickedWord) && (guess != "quit"))
 	{
-		//set the counter to three, which means the user will have 3 chances to guess each words
+		//initialize the counter to 3, which means the user will have 3 chances to guess each words
+		/*set the test statement to be greater than 1, means the user will have 2 chances to
+		type in the answers to 'guess' before the 'hint or not' option*/
+		//the update statement is decreasing by 1.
 		for (int counter = 3; counter > 1; counter--)
 		{
 			cout << "Sorry, very close. Please try again." << endl;
@@ -131,7 +134,7 @@ beginning:
 				cout << "Or enter any key for 'I want to guess by myself!'" << endl;
 				cin >> guess;
 
-				//[2nd] If the user need a hint
+				//[2nd] If the user need a hint, cout the hint and let the user take his last chance.
 				if (guess == "hint")
 				{
 					cout << pickedHint << endl;
@@ -159,7 +162,7 @@ beginning:
 					}
 				}
 
-				//[3rd] If the user do not need a hint
+				//[3rd] If the user do not need a hint, go ahead to the round 3.
 				else if (guess != "hint")
 				{
 					cout << "This is your last try" << endl;
@@ -195,7 +198,7 @@ beginning:
 
 	}
 
-	//[1st] If the user have the right answer in the first try.
+	//[1st] If the user got the right answer in the first try.
 	while (guess == pickedWord)
 	{
 		rightAnswer();
@@ -225,7 +228,8 @@ void rightAnswer()
 		<< "Enter 'N'for quit." << endl;
 
 }
-
+//This function will be called if user want to quit the game.
+//Or the user do not want to play again
 void endProgram()
 {
 
