@@ -1,0 +1,48 @@
+JASMINE:
+#include<iostream>
+#include<string>
+#include<cstdlib>
+#include <pch.h>
+#include <iomanip>
+#include <ctime>
+#include <thread>
+#include <chrono>
+#include <windows.h>
+
+using namespace std;
+
+	int a;
+	string time1;	
+	cout << "The scrambled word is: " << scrambled << endl;
+		thread timer([]() {
+			this_thread::sleep_for(chrono::seconds(0)); //time needed to start thread
+			do
+			{
+				if (guess == pickedWord) {
+					a = 0;
+					cout << "end" << endl;
+				}
+				else if (guess != pickedWord && a >= 10) {
+					time1 = "Time: 00:00:" + to_string(a);
+					cout << time1;
+					cout << "\r";
+					Sleep(1000);
+					a--;
+				}
+				else if (guess != pickedWord && a < 10 && a>0) {
+					time1 = "Time: 00:00:0" + to_string(a);
+					cout << time1;
+					cout << "\r";
+					Sleep(1000);
+					a--;
+				}
+				else if (a == 0) {
+					cout << time1;
+					cout << "\rtime is over!!" << endl;
+					a--;
+				}
+			} while (a >= 0);
+		});
+
+
+
