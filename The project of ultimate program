@@ -1,0 +1,307 @@
+//**************************************************************************************************************
+//This is a Word Jumble Game.                                                                                  *
+//The user will see a group of scrambling letters in random order.                                             *
+//The user will be asked to reconstruct the word and guess the word.                                           *
+//There will be THREE attempts OR the user can choose to QUIT the game.                                        *
+//While failing TWICE, the program will ask the user if he want to see a HINT                                  *
+//If so, program will give the user the hint.If not, the user can continue taking his last attempt.            *
+//There will be TEN words in total and each word will have its hint.                                           *
+//After Three attempts, no matter the user won or not, program will ask him if the user wants another try.     *
+//Making a 60-second countdown timer in a game.
+//This program is created by Douzi Ma and Li Lin.                                                              *
+//NOTE:IN THE PRES,PICK OUT TWO THINGS WE'VE LEARNED IN CLASS.                                                 *
+//**************************************************************************************************************
+
+//header files
+#include<iostream>
+#include<string>
+#include<cstdlib>
+#include<ctime>
+#include <thread>
+#include <chrono>
+#include <windows.h>
+
+using namespace std;
+
+//Prototypes
+string printMessage(string);
+void endProgram();
+void rightAnswer();
+void timeisOver();
+void timer();
+int correct; //determine answer correct / false
+int counter; //counting chance
+int a;
+
+int main()
+{
+	//*****************************************************************************
+	//First, create a list of the words, which is 6 words in this case.           *
+	//The six words will be: eyebrow, guitar, jelly, dolphin, rainbow, fire.      *
+	//*****************************************************************************
+
+	//Print out the message by calling printMessage function
+	printMessage("Welcome to the *WORD SCRAMBLE* game!!!\n");
+	printMessage("Guess the word by reconstrcuting the scrambled letters^0^\n");
+	printMessage("You will have three attempts to guess the word\n");
+	printMessage("If you want to quit the game, just type 'quit'\n");
+	printMessage("Press enter when you are ready.\n");
+
+	//set a point here as a mark
+	char gotostart = 'Y';
+beginning:
+	//Using the enumurators
+	enum field { WORD, HINT, NUM_FIELD };
+	const int NUM_WORDS = 10;
+
+	//Here, use a two dimensional array to store the words and the hints.
+	const string WORDS[NUM_WORDS][NUM_FIELD] =
+	{
+		{"eyebrow","It is on your face"},
+	{"guitar","It is a musical instrument"},
+	{"jelly","It is soft and semisolid"},
+	{"dolphin","It is a memmal which does not live on the land"},
+	{"rainbow","It is colorful"},
+	{"fire","It releases light"},
+	{"psychology","It is a study"},
+	{"vowel","A E I O U"},
+	{"hazelnut","It is a nut"},
+	{"cabin","Usually it is built of wood"},
+	};
+
+	//****************************************
+	//Pick a random word from the array.     *
+	//****************************************
+
+	//First,initialize the random seed       
+	srand(static_cast<unsigned int>(time(0)));
+	//generates a random number between 0 and 6
+	int randomIndex = (rand() % NUM_WORDS);
+	//This is the word that system has picked
+	string pickedWord = WORDS[randomIndex][WORD];
+	//This is the hint corresponded to the picked word.
+	string pickedHint = WORDS[randomIndex][HINT];
+
+
+
+	//**************************************************************
+	//Next, create a scrambled version of the words by rand()%     *
+	//**************************************************************
+
+	//declare a string variable of the scrambled words
+	string scrambled = pickedWord;
+	//each words' length are different,so we need a for loop to do the scramble each word
+	int length = scrambled.size();
+	for (int i = 0; i < length; i++)
+	{
+		int x = (rand() % length);
+		int y = (rand() % length);
+		char tempWord = scrambled[x];
+		scrambled[x] = scrambled[y];
+		scrambled[y] = tempWord;
+	}
+
+	//Game starts!
+	string guess; //Will accepts user's guess, and the choice if they want to play again or not.
+	cout << "The scrambled word is: " << scrambled << endl;
+	correct = 0; //reset timer
+	counter = 3; //reset timer
+	thread timerstart = thread(timer); //start timer
+	cout << "\nYour guess is:" << endl;
+	cin >> guess;
+
+
+	//[1st] If the user want to quit
+	while (guess == "quit")
+	{
+		endProgram();
+	}
+	//[1st] If the first guess is wrong and the user did not choose to quit
+	while ((guess != pickedWord) && (guess != "quit"))
+	{
+		//initialize the counter to 3, which means the user will have 3 chances to guess each words
+		/*set the test statement to be greater than 1, means the user will have 2 chances to
+		type in the answers to 'guess' before the 'hint or not' option*/
+		//the update statement is decreasing by 1.
+		for (counter = 3; counter > 1; counter--)
+		{
+			cout << "Sorry, very close. Please try again." << endl;
+			cout << "You have " << (counter - 1) << " more try" << endl;
+			cout << "Your guess is:" << endl;
+			cin >> guess;
+			while (guess == pickedWord)
+			{
+				rightAnswer();
+				cin >> gotostart;
+				if (gotostart == 'Y' || gotostart == 'y') {
+					timerstart.detach(); //exit thread
+					TerminateThread(timer,0); //kill thread
+					goto beginning;
+				}
+				else
+					endProgram();
+			}
+
+			//[2nd] After 2 attempts, the system will ask the user if they need a hint
+			if (counter = 2)
+			{
+				cout << "Do you want to a hint?" << endl;
+				cout << "Enter 'hint'for a hint" << endl;
+				cout << "Or enter any key for 'I want to guess by myself!'" << endl;
+				cin >> guess;
+
+				//[2nd] If the user need a hint, cout the hint and let the user take his last chance.
+				if (guess == "hint")
+				{
+					cout << pickedHint << endl;
+					cout << "Your guess is: " << endl;
+					cin >> guess;
+					while (guess == pickedWord)
+					{
+						rightAnswer();
+						cin >> gotostart;
+						if (gotostart == 'Y' || gotostart == 'y') {
+							timerstart.detach(); //exit thread
+							TerminateThread(timer, 0); //kill thread
+							goto beginning;
+						}
+						else
+							endProgram();
+					}
+					while (guess != pickedWord)
+					{
+						counter = 0; //end timer
+						cout << "Sorry,that's wrong." << endl;
+						cout << "The right answer is " << pickedWord << endl;
+						printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N'for quit.");
+						cin >> gotostart;
+						if (gotostart == 'Y' || gotostart == 'y') {
+							timerstart.detach(); //exit thread
+							TerminateThread(timer, 0); //kill thread
+							goto beginning;
+						}
+						else
+							endProgram();
+					}
+				}
+
+				//[3rd] If the user do not need a hint, go ahead to the round 3.
+				else if (guess != "hint")
+				{
+					cout << "This is your last try" << endl;
+					cout << "Your guess is:" << endl;
+					cin >> guess;
+					while (guess == pickedWord)
+					{
+						rightAnswer();
+						cin >> gotostart;
+						if (gotostart == 'Y' || gotostart == 'y') {
+							timerstart.detach(); //exit thread
+							TerminateThread(timer, 0); //kill thread
+							goto beginning;
+						}
+						else
+							endProgram();
+					}
+
+					//[3rd] if the last try is still wrong, print the right answer
+					//And then ask the users if they want to play again
+					while (guess != pickedWord)
+					{
+						counter = 0; //end timer
+						cout << "Sorry,that's wrong." << endl;
+						cout << "The right answer is " << pickedWord << endl;
+						printMessage("Do you want to play again? Enter 'Y' for playing again. Enter 'N' for quit.");
+						cin >> gotostart;
+						if (gotostart == 'Y' || gotostart == 'y') {
+							timerstart.detach(); //exit thread
+							TerminateThread(timer, 0); //kill thread
+							goto beginning;
+						}
+						else
+							endProgram();
+					}
+				}
+
+			}
+		}
+
+	}
+
+	//[1st] If the user got the right answer in the first try.
+	while (guess == pickedWord)
+	{
+		rightAnswer();
+		cin >> gotostart;
+		if (gotostart == 'Y' || gotostart == 'y') {
+			timerstart.detach(); //exit thread
+			TerminateThread(timer, 0); //kill thread
+			goto beginning;
+		}
+		else
+			endProgram();
+	}
+
+	return 0;
+
+}
+
+//PrintMessage function: cout the 'Instruction' messages
+string printMessage(string A)
+{
+	cout << A << endl;
+	return A;
+}
+
+//Print out if the user typed in the right answer
+void rightAnswer()
+{
+	correct = 1; //end timer
+	cout << "Congratulations! That's the right answer!" << endl;
+	cout << "Do you want to play again? Enter 'Y' for playing again. "
+		<< "Enter 'N'for quit." << endl;
+
+}
+//This function will be called if user want to quit the game.
+//Or the user do not want to play again
+void endProgram()
+{
+
+	cout << "Thanks for playing!Good-bye and Have a good one!" << endl;
+	exit(0);
+}
+
+void timeisOver()
+{
+	cout << "\nSorry, Time is over!" << endl;
+	cout << "You can keep guessing but the result will not count" << endl;
+	correct = 1; //end timer
+}
+
+void timer() {
+	a = 60; // set starting time
+	string time1 = ""; // timer output
+	do
+	{
+		if (correct  == 1 || counter == 0) { // when ans correct or out of chance
+			return; //exit void
+		}
+		else if (correct == 0 && a >= 10) {
+			time1 = "				Time Left: 00:00:" + to_string(a) + "		";
+			cout << time1 << "\r";
+			Sleep(1000);
+			a--;
+		}
+		else if (correct == 0 && a < 10 && a>0) {
+			time1 = "				Time Left: 00:00:0" + to_string(a) + "		";
+			cout << time1 << "\r";
+			Sleep(1000);
+			a--;
+		}
+		else if (a == 0) { // when time is up
+			cout << time1;
+			timeisOver();
+			return; //exit void
+		}
+	} while (a >= 0);
+}
