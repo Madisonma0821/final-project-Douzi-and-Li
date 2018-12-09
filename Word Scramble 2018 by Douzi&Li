@@ -17,8 +17,6 @@
 #include<string>
 #include<cstdlib>
 #include<ctime>
-#include<chrono>
-#include<windows.h>
 
 using namespace std;
 
@@ -26,9 +24,6 @@ using namespace std;
 string printMessage(string);
 void endProgram();
 void rightAnswer();
-
-int a;
-string time1;
 
 
 int main(void)
@@ -96,37 +91,7 @@ beginning:
 
 	//Game starts!
 	string guess;
-	string choice;
 	cout << "The scrambled word is: " << scrambled << endl;
-	cout << "The scrambled word is: " << scrambled << endl;
-		thread timer([]() { //setting up timer that goes parallel with the program below
-			this_thread::sleep_for(chrono::seconds(0)); //time needed to start thread
-			do
-			{
-				if (guess != "") { //when a guess is entered
-					a = 0;
-				}
-				else if (a >= 10) { //counting the time when >10s
-					time1 = "Time: 00:00:" + to_string(a);
-					cout << time1;
-					cout << "\r";
-					Sleep(1000);
-					a--;
-				}
-				else if (a < 10 && a>0) { //recounting the format the time <10s
-				time1 = "Time: 00:00:0" + to_string(a);
-					cout << time1;
-					cout << "\r";
-					Sleep(1000);
-					a--;
-				}
-				else if (a == 0) { //show that time is up
-					cout << time1;
-					cout << "\rtime is over!!" << endl;
-					a--;
-				}
-			} while (a >= 0);
-		});
 	printMessage("Your guess is:");
 	cin >> guess;
 
@@ -144,7 +109,6 @@ beginning:
 			cout << "Sorry, very close. Please try again." << endl;
 			cout << "You have " << (counter - 1) << " more try" << endl;
 			cout << "Your guess is:" << endl;
-			timer.join(); //recall timer out
 			cin >> guess;
 			while (guess == pickedWord)
 			{
@@ -154,7 +118,6 @@ beginning:
 					goto beginning;
 				else
 					endProgram();
-
 			}
 
 			//[2nd] After 2 attempts, the system will ask the user if they need a hint
@@ -170,7 +133,6 @@ beginning:
 				{
 					cout << pickedHint << endl;
 					cout << "Your guess is: " << endl;
-					timer.join();
 					cin >> guess;
 					while (guess == pickedWord)
 					{
@@ -199,7 +161,6 @@ beginning:
 				{
 					cout << "This is your last try" << endl;
 					cout << "Your guess is:" << endl;
-					timer.join();
 					cin >> guess;
 					while (guess == pickedWord)
 					{
@@ -267,5 +228,4 @@ void endProgram()
 
 	cout << "Thanks for playing!Good-bye and Hava a good one!" << endl;
 	exit(0);
-
 }
