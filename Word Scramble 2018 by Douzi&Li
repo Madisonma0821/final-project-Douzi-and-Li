@@ -5,7 +5,7 @@
 //There will be THREE attempts OR the user can choose to QUIT the game.                                        *
 //While failing TWICE, the program will ask the user if he want to see a HINT                                  *
 //If so, program will give the user the hint.If not, the user can continue taking his last attempt.            *
-//There will be SIX words in total and each word will have its hint.                                           *
+//There will be TEN words in total and each word will have its hint.                                           *
 //After Three attempts, no matter the user won or not, program will ask him if the user wants another try.     *
 //Maybe I will add a TIMER (60 seconds), or maybe not.                                                         *
 //This program is created by Douzi Ma and Li Lin.                                                              *
@@ -43,10 +43,9 @@ int main(void)
 	//set a point here as a mark
 	char gotostart = 'Y';
 beginning:
-
 	//Using the enumurators
 	enum field { WORD, HINT, NUM_FIELD };
-	const int NUM_WORDS = 6;
+	const int NUM_WORDS = 10;
 
 	//Here, use a two dimensional array to store the words and the hints.
 	const string WORDS[NUM_WORDS][NUM_FIELD] =
@@ -56,7 +55,11 @@ beginning:
 	{"jelly","It is soft and semisolid"},
 	{"dolphin","It is a memmal which does not live on the land"},
 	{"rainbow","It is colorful"},
-	{"fire","it releases light"}
+	{"fire","It releases light"},
+	{"phychology","It is a study"},
+	{"vowel","A E I O U"},
+	{"hazelnut","It is a nut"},
+	{"cabin","Usually it is built of wood"},
 	};
 
 	//****************************************
