@@ -68,7 +68,7 @@ beginning:
 
 	//First,initialize the random seed       
 	srand(static_cast<unsigned int>(time(0)));
-	//generates a random number between 0 and 6
+	//generates a random number between 0 and 10
 	int randomIndex = (rand() % NUM_WORDS);
 	//This is the word that system has picked
 	string pickedWord = WORDS[randomIndex][WORD];
